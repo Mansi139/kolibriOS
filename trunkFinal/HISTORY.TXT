@@ -2,12 +2,12 @@
 ; project name:    CPUID
 ; target platform: KolibriOS, x86 (IA-32), x86-64 achitectures
 ; compability:     CPUID works in MS Windows by means of emulator KlbrInWin from Diamond http://board.kolibrios.org/viewtopic.php?f=23&t=1273
-; compiler:        flat assembler 1.70.03
-; version:         2.29
-; last update:     12 October 2014
+; compiler:        flat assembler 1.71.22
+; version:         2.43
+; last update:     15 August 2016
 ; maintained by:   Sergey Kuzmin aka Wildwest
 ; e-mail:          kuzmin_serg@list.ru
-; site:            http://coolthemes.narod.ru/files.html
+; forum topic:     http://board.kolibrios.org/viewtopic.php?f=42&t=594
 ;******************************************************************************
 ; Summary:
 ;        supported vendors  - Intel, AMD, VIA, Cyrix, IDT (Centaur),Transmeta, Vortex86
@@ -29,32 +29,67 @@
 ;******************************************************************************
 ;"To do" plans:
 ; actual use of Brand ID for description of Intel's CPU, i.e. Celeron/Pentium separation;
-; remove support of Cyrix and early Centaur (IDT)  - they are too old, rare and non-standard;
 ; Sempron detection - probably they supports Brand-ID;
-; update caches descriptors for intel Core 1/2
-; quantity of logical CPU/cores - requires APIC ID analysis
+; cache detection for new Intel CPU's (04H call)
+; quantity of logical CPU/cores
 ; newest AMD/Intel codename detection
 ; improve support of Vortex86
 ;******************************************************************************
 ;HISTORY:
-;2.3: CPUID   12/10/2014 (not finished)
-;Authors:    Sergey Kuzmin aka Wildwest <kuzmin_serg@list.ru>
-;            Pavel Rymovskiy aka Heavyiron <Heavyiron@pisem.net>
-;            fedesco
-;Features:  
-;          (+)  'choose FSB' button removed and related code changed in the way it would use FSB value detected by Ghost's code;
-;          (+)  fixed calculation of Extended model for newest Intel;
-;          (+)  initial support of new vendor Vortex86 - logo, caches, technology;
-;          (+)  Italian translation by fedesco;
-;          (+)  makefile for *nix by fedesco;
-;          (+)  new cache descriptors for Intel;
-;          (+)  fixed typo, which makes output of Brand ID for AMD CPU's at incorrect place by Heavyiron;
-;          (+)  fixed typo, which makes selection of incorrect codename for AMD F8x CPU's; 
-;          (+)  added detection of Extended Model for Intel's CPU and example of it's use
+;2.5: CPUID 15/08/2016 (not finished)
+;Authors:
+; Manasi Thakkar aka mat1854
+;Features:
+; (+) added saving of features from fork version 2.26pre in log
+; (+) fixed redraw bug, which appears if user execute save dialog
+; (+) added AMD L3 cache detection
 ;Known issues: Sempron marked as AthlonXP
-;              second window doesn't closed when you close main window
-;              incorrect multiplier detection for newest CPU
-;              incorrect cache detection for several models of newest Intel CPU, because they designed for another cache detection approach
+; second window doesn't closed when you close main window
+; incorrect cache detection for several models of newest Intel CPU, because they designed for another cache detection approach
+;-----------------------------------------------------------------------------
+;2.4: CPUID 09/08/2016
+;Authors:
+; Artem Azhbakov aka marting422
+; Nikita Moiseev aka Powerdoge
+; Manasi Thakkar aka mat1854
+; Sergey Kuzmin aka Wildwest <kuzmin_serg@list.ru>
+;Features:
+; (+) added detection of Intel Arrandale
+; (+) save log in text file;
+; (+) use Extended models to turn off multiplier detection for CPU's, which aren't supported;
+; (+) show multiplier numbers, if we detect something and show n/a, if we don't;
+; (+) merging of different versions from GSOC students;
+; (+) added detection of codenames for new Intel CPUs: IvyBridge, SandyBridge-E, Gulftown, Westmere-EX, Clarksfield, Bloomfield,Nehalem-EX, Yorkfield, Dunnington, Clovertown, Merom Conroe, Cedar Mill, Nocona Irwindale, NoconaIrwindale, Dothan, Cedarview, Lincroft and Pineview.
+; (+) added detection of AMD k-10 series: AMD Athlon 7750 Black Edition, Opteron 2300-series, Opteron 8300-series, Phenom X4, Phenom X3, Athlon X2, Sempron, Opteron (Shanghai) 2387, Opteron (Magny-Cours), Opteron (Shanghai) 8300 series, Turion II.
+; (+) fixed duplication in txt file
+; (+) save Codename in text file;
+; (+) fixed abstact examples in visualisation block for RSA encoding performance test
+;Known issues: Sempron marked as AthlonXP
+; second window doesn't closed when you close main window
+; incorrect cache detection for several models of newest Intel CPU, because they designed for another cache detection approach
+;-----------------------------------------------------------------------------
+;2.3: CPUID 22/03/2016
+;Authors: Sergey Kuzmin aka Wildwest <kuzmin_serg@list.ru>
+; Pavel Rymovskiy aka Heavyiron <Heavyiron@pisem.net>
+; fedesco
+; Artem Azhbakov aka marting422
+;Features:
+
+; (+) 'choose FSB' button removed and related code changed in the way it would use FSB value detected by Ghost's code;
+; (+) fixed calculation of Extended model for newest Intel;
+; (+) initial support of new vendor Vortex86 - logo, caches, technology;
+; (+) Italian translation by fedesco;
+; (+) makefile for *nix by fedesco;
+; (+) new cache descriptors for Intel;
+; (+) fixed typo, which makes output of Brand ID for AMD CPU's at incorrect place by Heavyiron;
+; (+) fixed typo, which makes selection of incorrect codename for AMD F8x CPU's;
+; (+) added detection of Extended Model for Intel's CPU and example of it's use (Intel Sandy Bridge)
+; (+) added visualisation block for RSA encoding performance test
+;Known issues: Sempron marked as AthlonXP
+; second window doesn't closed when you close main window
+; incorrect multiplier detection for newest CPU
+; incorrect cache detection for several models of newest Intel CPU, because they designed for another cache detection approach
+; abstact examples in visualisation block for RSA encoding performance test
 ;-----------------------------------------------------------------------------
 ;2.2: CPUID   01/05/2007
 ;Authors:    Sergey Kuzmin aka Wildwest <kuzmin_serg@list.ru>
@@ -168,5 +203,5 @@
 ;Known issues: Sempron is not supported (marked as AthlonXP)
 ;              caches for IDT is not detected
 ;-----------------------------------------------------------------------------
-;early history was removed; download any old version of CPUID and read it, if you want
+;early history in old versions of CPUID at http://coolthemes.narod.ru/files.html
 ;*****************************************************************************

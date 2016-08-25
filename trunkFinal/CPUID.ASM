@@ -1,23 +1,23 @@
 ;******************************************************************************
 ; project name:  CPUID							      *
 ; platform:	 KolibriOS, x86 (IA-32), x86-64 achitectures		      *
-; compiler:	 flat assembler 1.70.03 				      *
-; version:	 2.29							      *
-; last update:	 12 October 2014					      *
+; compiler:	 flat assembler 1.71.22 				      *
+; version:	 2.43							      *
+; last update:	 15 Ausust 2016 					      *
 ; maintained by: Sergey Kuzmin aka Wildwest				      *
 ; e-mail:	 kuzmin_serg@list.ru					      *
-; site: 	 http://coolthemes.narod.ru/files.html			      *
+; forum topic:	 http://board.kolibrios.org/viewtopic.php?f=42&t=594	      *
 ; license:	 Copyright 2004-2014 Sergey Kuzmin and co-authors	      *
 ;		 Rules: 						      *
 ;		 1)you can use pieces of code in your project, but should     *
 ;		 mention the original author (include copyright notice);      *
-;		 2)if you modify CPUID (improve, port, translate,  etc) send   *
+;		 2)if you modify CPUID (improve, port, translate,  etc) send  *
 ;		 your changes to the maintainer or make about post changes    *
 ;		 at forum  http://board.kolibrios.org/viewtopic.php?f=42&t=594*
 ;-----------------------------------------------------------------------------*
-; English comments							      *
+; Comments are in English						      *
 ;------------------------------------------------------------------------------
-use32
+use32 
   org	 0x0
   db	 'MENUET01'
   dd	 0x01
@@ -50,7 +50,7 @@ START:			;
 
 load_libraries l_libs_start,end_l_libs
 ;-----------------------------------------------------------------------------
-;OpenDialog     initialisation
+;OpenDialog	initialisation
 	push	dword OpenDialog_data
 	call	[OpenDialog_Init]
 
@@ -122,8 +122,8 @@ mov [che], al	     ; number of calls
 multik:
 
 .eaxl:
-test  eax, eax	     ;    Test bit 31
-js    .ebxl	     ;    <> 0 =>invalid values
+test  eax, eax	     ;	  Test bit 31
+js    .ebxl	     ;	  <> 0 =>invalid values
 call decodecache24
 .ebxl:
 test  ebx, ebx
@@ -276,7 +276,7 @@ call decode_sse3_5
 .noname:
 red:
 
-;mov byte [multiplier], 115;     ; for testing
+;mov byte [multiplier], 115;	 ; for testing
 
 call decode_sse3
 
@@ -316,18 +316,18 @@ output:
 
 ;HRERE
 
-PROCCORE:    ;   Who are you?
-; Intel - "GenuineIntel"           +
-; AMD - "AuthenticAMD"             +
-; Cyrix - "CyrixInstead"           +
+PROCCORE:    ;	 Who are you?
+; Intel - "GenuineIntel"	   +
+; AMD - "AuthenticAMD"		   +
+; Cyrix - "CyrixInstead"	   +
 ; UMC - "UMC UMC UMC "
 ; NexGen - "NexGenDriven"
-; Centaur - "CentaurHauls"         +
+; Centaur - "CentaurHauls"	   +
 ; Rise Technology - "RiseRiseRise"
 ; SiS - "SiS SiS SiS "
-; Transmeta - "GenuineTMx86"       +
+; Transmeta - "GenuineTMx86"	   +
 ; National Semiconductor - "Geode by NSC"
-; Vortex - "Vortex86 SoC"       + initial support
+; Vortex - "Vortex86 SoC"	+ initial support
   cmp dword[smallvendor], 'ntel'   ;1
   jz Intel
   cmp dword[smallvendor], 'cAMD'   ;2
@@ -376,7 +376,7 @@ call concatname
 	call	load_gif
 PutImage 135,107,201,49,img_area+8
 MOV [codeN], 2
-;         place   size
+;	  place   size
 
 ; Relax, man. AMD made PRETTY SIMPLE cache detection routine
 ;CACHE1:
@@ -419,7 +419,7 @@ mov eax, 80000006h
     cpuid
 
 movzx eax, cl
-mov dword[linel2], eax
+mov dword[linel2], eax	  
 
 push ecx
 shr ecx, 12+1
@@ -434,31 +434,22 @@ mov [L2],ecx
 
 ;CACHE3: edx provides l3 
 
-;movzx eax, cl   ;mov cl to eax, zero extend; cl is counter reg for loop,shifts
-;mov [lineld], eax   ;lineld? 
+;mov eax, 80000006h
+;    cpuid
+    
+;movzx eax, cl	    ;mov cl to eax, zero extend; cl is counter reg for loop,shifts
+;mov dword[linel3], eax	 
 
-;mov eax, ecx
-;;shl eax, 8
-;;shr eax, 24
+;push edx
+;shr edx, 12+1
+;and edx, 0x7
+;mov eax, 1
+;shl eax, cl
+;mov dword [wayl3], eax
+;pop edx
 
-;and eax,00FF0000h
-;shr eax, 16
-;mov [wayld], eax
-
-;shr ecx, 24
-;mov [L1d], ecx
-
-movzx edx, dl ;not sure
-mov [linel3], eax
-
-mov eax, edx
-
-and eax,00FF0000h
-shr eax, 16
-mov [wayl3], eax
-
-shr edx, 24
-mov [L3], edx
+;shr edx, 18
+;mov [L3],ecx
 
 
     cmp [f], $5
@@ -533,7 +524,7 @@ mov [L3], edx
 	Text	100,70,0x80000000
 	jmp	MMXtest
 A6:
-;mov     [FRS], 266  ;!!!!!!
+;mov	 [FRS], 266  ;!!!!!!
 ;Number  315,90,0,3,dword [FRS],0x000000; MHz
 
 	call	newrating; !!!!
@@ -545,7 +536,7 @@ A6:
 
 A8:
 
-;mov     [FRS], 266     ;!!!!!!
+;mov	 [FRS], 266	;!!!!!!
 ;Number  315,90,0,3,dword [FRS],0x000000; MHz
 
 	cmp	[L2], 256
@@ -564,10 +555,10 @@ A8:
 
 AA:
 
-;        mov     [FRS], 333; !!!!
+;	 mov	 [FRS], 333; !!!!
 	Text	245,70,0x00000000,pr, prlen-pr
 
-;        Number  315,90,0,3,dword [FRS],0x000000; MHz
+;	 Number  315,90,0,3,dword [FRS],0x000000; MHz
 
 	mov	edx, Atat
 	cmp	[L2], 256
@@ -584,70 +575,71 @@ AA:
 
 fif:  ;  AMD-64    Family=15
 
+mov [nomultiplier], 1  ;dont detect multipl for new AMD
 ;here is a need to rewrite detection of AMD F-th family according to "Revision Guide for
 ;AMD AthlonTM 64 and  AMD OpteronTM  Processors" 25759.pdf
 
 ; checking sse3 for new AMD's is needed
     cmp [m],$1	; Dual-core Opteron
-    jz   AF1.
-    cmp [m],$3	; Toledo 1024 0.09   // Manchester     ||Windsor Dual Core not supported
-    jz  AF3.
-    cmp [m],$4	;Athlon 64 Mobile Athlon 64 FX  ClawHammer (1024) 0.13
+    jz	 AF1.
+    cmp [m],$3	; Toledo 1024 0.09   
+    jz	AF3.
+    cmp [m],$4	;Athlon 64 Mobile Athlon 64 FX	ClawHammer (1024) 0.13
     jz AF4.
     cmp [m],$5	; Opteron     Athlon 64 FX 0.13 (1024)
     jz AF5.
-    cmp [m],$7	;Athlon 64 Athlon 64 FX  Clawhammer(1024) 0.13   Sledgehammer(1024)  0.13  // SSE3+ SanDiego(1024)
+    cmp [m],$7	;Athlon 64 Athlon 64 FX  Clawhammer(1024) 0.13	 Sledgehammer(1024)  0.13  
     jz AF7.
-   cmp [m],$8 ; Athlon 64 Mobile Athlon 64 FX ClawHammer (1024) 0.13
+   cmp [m],$8  ; Athlon 64 Mobile Athlon 64 FX ClawHammer (1024) 0.13
     jz AF8.
-   cmp [m],$B ; Athlon 64
+   cmp [m],$B  ; Athlon 64
     jz AFB.
-   cmp [m],$C ;Athlon 64 Newcastle(512) 0.13  Sempron> Paris (256)   0.13  |SSE3+ Sempron >  Palermo FC0 0.09  // (Venice)
+   cmp [m],$C  ;Athlon 64 Newcastle(512) 0.13  
     jz AFC.
-   cmp [m],$E  ; Athlon 64    //
+   cmp [m],$E  ; Athlon 64   
     jz AFE.
    cmp [m],$F ; Athlon 64 Winchester(512) |SSE3+ SanDiego(1024)  Venice (512)  Palermo (256) 0.09
     jz AFF.
     jmp next_generation
     
-ten:      ;family = 10h
+ten:	  ;family = 10h
 
-;Opteron (Barcelona) (10 September 2007), 0.065 micron, Opteron 2300-series,Opteron 8300-series
+;Opteron (Barcelona)
 cmp [m],$2  ;model 2, stepping 1, Opteron processor 2347
    jz AB23.
 cmp [m], $8 ;model 2, stepping 2, opteron processor 8356
    jz AB83.
    
-;Phenom X4 (9-series) (Agena) (19 November 2007[1]), 0.065 micron
-cmp [m], $9    ;model 2,02h, stepping,3, 03h, AMD Phenom X4 9550 BAKI
+;Phenom X4 (9-series) (Agena) 
+cmp [m], $9    
   jz AB9.      ; 4 cores, cache 4x64
   
-;Phenom X3 (8-series) (Toliman) (April 2008[2]), 0.065 micron
-cmp [m], $2          ;3 cores, cache 3x63
+;Phenom X3 (8-series) (Toliman) 
+cmp [m], $2	     ;3 cores, cache 3x63
   jz AB8check2.
   
 AB8check2.:
-cmp [s],03h          ;DONE
+cmp [s],03h	     
     jz AB8right2.
 
-;Athlon 6-series (Kuma) (February 2007[3]) 
+;Athlon 6-series 
 cmp [m],$2
   jz athlonCheck
   
-athlonCheck:       ;stepping 03h, Athlon X2 7450 ; DONE
+athlonCheck:	   ;stepping 03h, Athlon X2 7450 ; DONE
 cmp [s],03h
     jz athlonKuma
 
-;Athlon X2 (Rana) (Q4 2007), 0.045 and 0.065 micron, BL-C2, BL-C3
-cmp [m], $5    ;Model 5, 05h, stepping 3, 03h, AMD Athlon(tm) II X3 455 Processor
+;Athlon X2 (Rana)
+cmp [m], $5    ;Model 5, 05h, stepping 3, 03h, AMD Athlon(tm) II X3 
  jz AB4.
 
-;Opteron (Budapest) 	0.065 micron, Core stepping(s)	B2, B3, DR-B3, Cores	4, L2 cache size	2048 KB, L3 cache size	2 MB
+;Opteron (Budapest)	0.065 micron, Core stepping(s)
 cmp [m],$1     ;AMD Opteron 1354 (rev. B3) specifications
-   jz AB1.      ;model 2 02h, stepping 3 03h
+   jz AB1.	   ;model 2 02h, stepping 3 03h
 
-;Opteron (Shanghai)  0.045 micron, Cores	4, Core stepping(s)	C2, 2300 series and  8300 series
-cmp [m],$4        
+;Opteron (Shanghai)  0.045 micron, Cores
+cmp [m],$4	  
     jz AB8check.
     
 AB8check.:
@@ -656,17 +648,17 @@ cmp [s],02h    ;2387
 cmp [s],01h    ;8300
      jz ABC3.
 
-;Opteron (Magny-Cours) \BB 0.045 micron , Opteron 6100 series, 
-cmp [m], $9             ;model 9, stepping 00h
+;Opteron (Magny-Cours) 
+cmp [m], $9		
     jz AB6.
     
-;Athlon II X2 0.045 micron,
+;Athlon II X2 0.045 micron
 cmp [m], $2
     jz AB8check. 
 
-;Turion II (Caspian) \BB 0.045 micron, stepping 2
+;Turion II (Caspian)
 cmp [m], 06h   
-      jz ABM.   
+      jz ABM.	
   
 athlonKuma:
       mov [micron], 65
@@ -675,7 +667,7 @@ athlonKuma:
       mov edi, saveproc + 0x4
       call concatname
       jmp MMXtest  
-         
+	 
 AB23.:
       mov [micron], 65
       Text 100,70,0x00000000,AB23, AB23len-AB23
@@ -683,7 +675,7 @@ AB23.:
       mov edi, saveproc + 0x4
       call concatname
       jmp MMXtest
-        
+	
 AB83.:
       mov [micron], 65
       Text 100,70,0x00000000,AB83, AB83len-AB83
@@ -699,7 +691,7 @@ AB9.:
       mov edi, saveproc + 0x4
       call concatname
       jmp MMXtest  
-        
+	
 AB8right2.:
        mov [micron], 65
       Text 100,70,0x00000000,AB8right2, AB8right2len-AB8right2
@@ -722,7 +714,7 @@ AB1.:
       mov esi, AB1
       mov edi, saveproc + 0x4
       call concatname
-      jmp MMXtest         
+      jmp MMXtest	  
       
 ABC2.:
       mov [micron], 45
@@ -792,7 +784,7 @@ AF7.:
     
 AF8.:
    mov [micron], 13
-   Text 100,70,0x00000000,AF4, AF4len-AF4  ; AF4, AF5len-AF4
+   Text 100,70,0x00000000,AF4, AF4len-AF4 
    mov esi, AF4
     mov edi, saveproc + 0x4
     call concatname
@@ -881,7 +873,7 @@ mov esi, AFCsp
 ;-----------------------------------------------
 Intel:
 mov [codeN], $1   
-Text 75,70,0x00000000,Inteln, Intelnlen-Inteln  ;75,70
+Text 75,70,0x00000000,Inteln, Intelnlen-Inteln	;75,70
 	mov esi, IntelnNew   ;un comment this four lines
 	mov edi, saveproc
 	call concatname
@@ -891,7 +883,7 @@ PutImage 135,107,201,49,img_area+8  ;this one
   
 
 ;PutImage 125,107,201,49,img_area+8
-;         place   size
+;	  place   size
 
 det:
     cmp [f], $5
@@ -1163,12 +1155,6 @@ mov esi, P6F
 
 NEWintel:    ;http://www.cpu-world.com/info/Intel/Intel_Core_i7.html
 
-;try changing null to something and see 
-;mov dword[cname], null
-;Text 110,70,0x00000000,dword[cname], 40
-
-;mcall   4, <190,70>, 0x00000000, [cname]
-
    cmp [em],$3A   ;IvyBridge ; only one
     jz I3A 
    cmp [em],$2A   ;SandyBridge
@@ -1176,54 +1162,31 @@ NEWintel:    ;http://www.cpu-world.com/info/Intel/Intel_Core_i7.html
    cmp [em],$2D  ;SandyBridge-E/EN/EP
     jz I2D
    cmp [em],$25   ;Arrandale/Clarksdale
-    jz I25
-    
+    jz I25    
    cmp [em],$2C   ;Gulftown/Westmere-EP
-    jz I2C        ;westmere-EP stepping B1 -> micron 0.032
-    
+    jz I2C	     
    cmp [em],$2F   ;Westmere-EX
-    jz I2F
-    ;dont need this but stepping -> A2, micron 0.032
-    
+    jz I2F    
    cmp [em],$1E   ;Clarksfield/Lynnfield/Jasper Forest
-    jz I1E
-    
+    jz I1E   
    cmp [em],$1A   ;Bloomfield/Nehalem-EP
     jz I1A
-    ;Nehalem-Ep 0.045 micro, stepping D0
-   
    cmp [em],$2E   ;Nehalem-EX
     jz I2E
    cmp [em],$17   ;Yorkfield/Wolfdale/Penryn/Harpertown (DP)
     jz I17
-    ;yorkfield stepping E0, 0.045 micron
-    ;wolfdale stepping A1,C0,E0, 0.045 micron
-    ;penryn nothing for now
-    ;harpertown stepping C0,E0, 0.045 micron
-    
    cmp [em],$1D   ;Dunnington (MP)
     jz I1D
    cmp [em],$0F   ;Clovertown/Kentsfield/Conroe/Merom/Woodcrest
     jz I0F
-    ;clovertown stepping G0, 0.065 micron
-    ;Kentsfield stepping G0, 0.065
-    ;Conroe stepping G0, 0.065
-    ;merom nothing for now
-    ;Woodcrest stepping B0,B1,B2,G0, 0.065 micron
-    
    cmp [em],$16   ;Merom Conroe
     jz I16
    cmp [em],$06   ;Cedar Mill/Presler
     jz I06
-    ;Cedar Mill nothing for now
-    ;presler nothing for now
    cmp [em],$03   ;Nocona Irwindale / Prescott
     jz I03
-    ;Nocona stepping B0,B1, C1, D0, E0, G0, G1, 0.09 micro JUST NOCONA
-    ;Prescott nothing for now
    cmp [em],$04   ;NoconaIrwindale / Prescott
     jz I03
-    ;
    cmp [em],$0D   ;Dothan
     jz I0D
    cmp [em],$36   ;Cedarview
@@ -1232,6 +1195,7 @@ NEWintel:    ;http://www.cpu-world.com/info/Intel/Intel_Core_i7.html
     jz I26
    cmp [em],$1C   ;Pineview/Silverthorne
     jz I1C
+	jmp no_known
 
 Inewunknown:
     jmp MMXtest
@@ -1266,13 +1230,7 @@ jmp MMXtest
 I25:
 ;Text 110,70,0x00000000,P25, P25len-P25
 mov [micron], 32
-;mov [cname], ''
-; mcall   4, <170,70>, 0x00000000, [cname]
 mov [cname], P25  ;P25
- ;mcall   12, 1           ; start redraw
-;mcall   4, <170,70>, 0x00000000, [cname]
-;mcall   12, 2           ; end redraw
-
 mov esi, P25   ;un comment this four lines
 mov edi, saveproc + 0x10  ;12
 call concatname
@@ -1414,13 +1372,6 @@ mov edi, saveproc + 0x10
 call concatname
     jmp MMXtest
     
-    ; mcall   4, <30,10>, 0x80000000, [cname]                  ; display string
-       ; mov     ebx, 110 * 65536 + 70    ; draw info text with function 4
-       ; mov     ecx,0x00000000      ;0x224466
-       ; mov     edx, [cname]
-       ; mov     esi, 40
-       ; mov     eax, 4
-       ; mcall
 
 ;;;;;;;;;;;;;;;;;;;
 sev:	;Family=7
@@ -1565,8 +1516,6 @@ Text 15, 190,0x00000000,cache, cachelen-cache
 	mov	esi, cyrix
 	call	load_gif
 PutImage 135,107,201,49,img_area+8
-;PutImage 130,127,201,49,img_area+8
-;         place   size
 
     cmp [f], $5
     jz .fivv
@@ -1650,8 +1599,6 @@ mov [L1d], ecx
 shr edx, 24
 mov [L1i], edx
 
-
-
 ; cache detection routine
 ;CACHE1:
 mov eax, 80000005h
@@ -1691,7 +1638,7 @@ cmp [f], $6
 vn:
     cmp [m],$9
     jl vl2old
-; else  new
+; else	new
 movzx eax, cl
 mov dword[linel2], eax
 
@@ -1730,8 +1677,7 @@ fivC:		   ;Family=5
 	mov	esi, idt
 	call	load_gif
 PutImage 135,107,201,49,img_area+8
-;PutImage 125,107,201,49,img_area+8
-;         place   size
+
 
 Text 75,70,0x00000000,IDTn, IDTnlen-IDTn
 mov esi, IDTn
@@ -1764,8 +1710,6 @@ sixC:	;Family=6
 	mov	esi, via
 	call	load_gif
 PutImage 135,107,201,49,img_area+8
-;PutImage 125,107,201,49,img_area+8
-;         place   size
 
 Text 75,70,0x00000000,Centaurn, Centaurnlen-Centaurn
 mov esi, Centaurn
@@ -1819,8 +1763,7 @@ mov esi, Tranmsmetan
 	mov	esi, transmeta
 	call	load_gif
 PutImage 135,107,201,49,img_area+8
-;PutImage 125,107,201,49,img_area+8
-;         place   size
+
 
 ; cache detection routine - it is the same as for AMD (almost)
 ;CACHE1:
@@ -1873,13 +1816,13 @@ mov [L2],ecx
     jz .fivt
     cmp [f], $F
     jz .fift
-.fivt:	  ;     Family=5
+.fivt:	  ;	Family=5
 
     mov edx,T5
     mov esi,T5len-T5
     jmp @f
 
-.fift:	  ;     Family=F
+.fift:	  ;	Family=F
     mov edx,TF
     mov esi,TFlen-TF
 @@:
@@ -1899,14 +1842,9 @@ Text 15, 190,0x00000000,cache, cachelen-cache
 	mov	esi, vortex
 	call	load_gif
 PutImage 135,107,201,49,img_area+8
-;PutImage 130,127,201,49,img_area+8
-;         place   size
-
     cmp [f], $5
     jz .V54 ;fivvtx
-;.fivvtx:         ;Family=5
-;    cmp [m],$4
-;    jz .V54
+
 .V54:
     mov [micron], 13
     mov [L1i], 16
@@ -1956,20 +1894,11 @@ HTTtest:
 
 TEXTOUT:
 
-;Text 15,110,0x00000000,fam, famlen-fam
-;Text 15,130,0x00000000,mode, modelen-mode
-;Text 15,150,0x00000000,step, steplen-step
-
 Text 275,290,0x00000000,HTT, HTTlen-HTT
 Text 275,310,,sse3, sse3len-sse3
-;Text 15,70,,name, namelen-name
-
 Text 15,290,,MMXs, MMXslen-MMXs
 Text 15,310,,SSE, SSElen-SSE
 Text 95,310,,SSE2, SSE2len-SSE2
-
-;Text 115,335,0x00000000,newLabel2, newLabel2len-newLabel2 
-
 
 ;-------------------
 TEST3DNOW:
@@ -2014,15 +1943,6 @@ test	edx, $40000000 ;// Test bit 30
    mov	dword [nowp+ 9],  $736579
    jmp TESTMMXP
    
-;beta from 2007 merge change
-;@@:
-;  mov	eax, now+9
-;  add	edx, edx
-;  call	write_yes_no_cf
-
-;  mov	eax, nowp+9
-;  add	edx, edx
-;  call	write_yes_no_cf
 
 TESTMMXP:
 
@@ -2032,8 +1952,8 @@ TESTMMXP:
     test eax, 80000000h
     jna NOEXTENDEDM
     
-  ;cmp   eax, $80000000 ;// Is 800_0001h supported?
-  ;jz   .NOEXTENDEDM    ;// If not, 3DNow! technology is not supported
+  ;cmp	 eax, $80000000 ;// Is 800_0001h supported?
+  ;jz	.NOEXTENDEDM	;// If not, 3DNow! technology is not supported
   mov	eax, $80000001 ;// Setup extended function 8000_0001h
   cpuid
   cmp [smallvendor], 'tead'
@@ -2045,7 +1965,7 @@ Cyrmx:
 noCyr:
   test	edx, $00400000 ;// Test bit 22
   jnz	XITM  ;// 3DNow! technology is supported
-  ;jz   .NOEXTENDEDM
+  ;jz	.NOEXTENDEDM
 
 NOEXTENDEDM:
    mov	dword [mmxp+ 7], $6F6E
@@ -2112,7 +2032,7 @@ event_wait:
 
     cmp  eax,1		;
     je	 red		;  redraw
-    je   red2
+    je	 red2
     cmp  eax,2		;
     je	 key		;  key
     cmp  eax,3		;
@@ -2134,14 +2054,14 @@ event_wait:
     je call_OpenDialog
     
      mov	eax,11	     ; function 23 - event wait
-   mov  ebx,1
+   mov	ebx,1
    mcall 
    
    mov	eax,15	     ; function 23 - event wait
-   mov  ebx,3
+   mov	ebx,3
    mcall 
    
-;    cmp  ah,3          ;  = 3 ?
+;    cmp  ah,3		;  = 3 ?
     jne  still
 
 close:
@@ -2200,11 +2120,11 @@ still_2:
 
     jmp  still_2	;
 
-  key_2:		;
-    mcall		;
+    key_2:		
+    mcall		
     jmp  still_2	;
 
-  button_2:		;
+    button_2:		;
     mov  eax,17 	; 17
     mcall		;
 
@@ -2219,16 +2139,11 @@ still_2:
 
 draw_window_2:
 
-    ;call prepare_text_area
-
     mov  eax,12 		   ; function 12:tell os about windowdraw
     mov  ebx,1h 		    ; 1, start of draw
     mcall
 
-
 Window 250,250,420,520, 0x33FFFFFF, 0x805080d0, standard  ;460
-; place size
-
 
 Text 15, 10,0x00000000, STDCA, STDCAlen-STDCA
 Text 215, 10,, EXTCA, EXTCAlen-EXTCA
@@ -2307,7 +2222,6 @@ Text 115,275,,LAF, LAFlen-LAF
 Text 115,295,,SSSE3, SSSE3len-SSSE3
 Text 115,315,,MCR8, MCR8len-MCR8
 
-;Text 115,375,0x00000000,newLabel2, newLabel2len-newLabel2  ;115,359
 ;added
 Text 115,335,0x00000000,EAS, EASlen-EAS   ;115,335
 
@@ -2339,30 +2253,22 @@ Text 315,335,0x00000000,PPCNT,PPCNTlen-PPCNT
 Text 315,295,0x00000000,SSE4A,SSE4Alen-SSE4A   ;try here
 Text 315,355,0x00000000,SKINIT_,SKINIT_len-SKINIT_
 
-
 too:
 DrawLine 10,  400, 430,430,0x8080FF  ;10
 
 Text 15,415,0x00000000,speed, speedlen-speed
 Text 130,415,,kbpersec, kbperseclen-kbpersec
 
-;whhat? 
-;Number 95,350,0,5,dword [iter],0x000000; RSA test results
+DrawLine 10, 80, 400, 400, 0x8080FF   
 
-;;addd stuff here back
-
-;could uncomment this
-
-DrawLine 10, 80, 400, 400, 0x8080FF   ;DrawLine 10, 80, 337, 337, 0x8080FF 
-
- Text 90,400,0x80000000,performancestr, 0  ;Text 90,335,0x80000000,performancestr, 0 
+Text 90,400,0x80000000,performancestr, 0  
 DrawLine 322, 400, 400, 400, 0x8080FF
 DrawLine 10, 10, 400, 490, 0x8080FF
 DrawLine 400, 400, 400, 490, 0x8080FF
 
 DrawLine 10, 400, 490, 490, 0x8080FF
 
-	      ; your proc
+	    ; your proc
 		Text 20,415,0x808080FF,currentcpu, 0
 		Number 170,415,0,5,dword [iter],0x000000       ; + 15
 		;Text 115,370,,kbpersec, kbperseclen-kbpersec  ;+ 355
@@ -2417,7 +2323,7 @@ DrawLine 10, 400, 490, 490, 0x8080FF
 
 linelen  dd 0  
 currentcpu db 'Current CPU',0
-samplename1 db 'Intel Core i5 CPU', 0x000000    ; not real results!
+samplename1 db 'Intel Core i5 CPU', 0x000000	; not real results!
 samplespeed1 dd 62
 samplename2 db 'Intel Core i3 CPU', 0
 samplespeed2 dd 48
@@ -2441,9 +2347,9 @@ draw_window:
 
 	mov	esi, knopka
 	mov	edi, img_area2
- 	call	load_gif2
+	call	load_gif2
 PutImage 15,345,93,24,img_area2+8 ;PutImage 15,330,93,24,img_area2+8   ; image "press for more"
-;         place   size
+;	  place   size
 
 
   Button 15,380,92,23,3+0x40000000,0x03FFFFFF ; button "save"  ;370 
@@ -2451,39 +2357,31 @@ PutImage 15,345,93,24,img_area2+8 ;PutImage 15,330,93,24,img_area2+8   ; image "
 	mov	esi, knopka2
 	mov	edi, img_area3
 	call	load_gif2
-  PutImage 15,380,93,24,img_area3+8   ; image "save"    ;370
-;         place   size
+  PutImage 15,380,93,24,img_area3+8   ; image "save"	;370
+;	  place   size
 
     mov  eax,12
     mov  ebx,2h
     mcall
 
     Text 130,270,0x00000000,instruct, instructlen-instruct
-
-    ;DrawLine  20,  330, 325,325,0x8080FF  ;10,330
     DrawLine  10,  330, 340,340,0x8080FF  
-    
-    DrawLine 330,  330, 275,340;,0x8080FF   ;330,330,275,325
-    DrawLine  10,   10, 275,340;,0x8080FF ;10,10
-    
-    DrawLine  10,  125, 275,275;,0x8080FF  ;10,125
-    
-    DrawLine 230,  330, 275,275;,0x8080FF ;230,330
+    DrawLine 330,  330, 275,340;,0x8080FF   
+    DrawLine  10,   10, 275,340;,0x8080FF 
+    DrawLine  10,  125, 275,275;,0x8080FF  
+    DrawLine 230,  330, 275,275;,0x8080FF 
 
   cmp dword[smallvendor], 'cAMD'
   jne cont
   cmp [f], $6
   jne cont
 
-;   Button 240,85,69,15,3,0x030000FF  ;  button for rating
-;    Text 245,90,0x00FFFFFF,FR, FRlen-FR ; text at button
-
    call newrating; !!!!
 
      cont:
     Text 15,50,0x00000000,tsum, tsumlen-tsum   ;
 
-;Number 82,50,0,4,dword [total],0x000000; MHz
+	;Number 82,50,0,4,dword [total],0x000000; MHz
     mov esi, total
     mov edi, tsum + 0xB  ;0xA
     call savenumber
@@ -2495,7 +2393,7 @@ PutImage 15,345,93,24,img_area2+8 ;PutImage 15,330,93,24,img_area2+8   ; image "
 
     ;Number 75,110,1*256,1,dword [f],0x000000 ;
     mov esi, f
-    mov edi, fam + 0x8     ;0x9
+    mov edi, fam + 0x8	   ;0x9
     call savenumber
 
     ;Number 75,130,,,dword [m]
@@ -2510,7 +2408,7 @@ PutImage 15,345,93,24,img_area2+8 ;PutImage 15,330,93,24,img_area2+8   ; image "
 
     ;Number 110,110,1*256,2,dword [ef]
     mov esi, ef
-    mov edi, fam + 0xE    ;0x9
+    mov edi, fam + 0xF	  ;0xE
     call savenumber
 
     ;Number 110,130,,,dword [em]
@@ -2568,17 +2466,17 @@ PutImage 15,345,93,24,img_area2+8 ;PutImage 15,330,93,24,img_area2+8   ; image "
     mov edi, cache2 + 0xa 
     call savenumber
     
-;Number 75,190,,,dword [ L1i]
+	;Number 75,190,,,dword [ L1i]
     mov esi, L1i
     mov edi, cache + 0xa
     call savenumber
 
-;Number 41,210,0,4,dword[L2]
+	;Number 41,210,0,4,dword[L2]
     mov esi, L2
     mov edi, cache3 + 0x4    ;0x3
     call savenumber
 
-;Number 35,230,0,5,dword[L3]
+	;Number 35,230,0,5,dword[L3]
     mov esi, L3
     mov edi, cache4 + 0x4   ;0x3
     call savenumber
@@ -2604,7 +2502,7 @@ PutImage 15,345,93,24,img_area2+8 ;PutImage 15,330,93,24,img_area2+8   ; image "
    
    red2:
  
-    ;;;;;;;;;;;;;;;;;;;;;;;;
+  
     goon: 
     
     ;call PROCCORE 
@@ -2640,14 +2538,6 @@ PutImage 15,345,93,24,img_area2+8 ;PutImage 15,330,93,24,img_area2+8   ; image "
     Text 175,310,0x00000000,SSE42, SSE42len-SSE42 
     Text 175,330,0x00000000,SSE5, SSE5len-SSE5 
     
-   ; Text 275,330,0x00000000,newLabel2, newLabel2len-newLabel2
-    
-    ;here
-   ; Text 115,335,0x00000000,newLabel2, newLabel2len-newLabel2 
-   
-    ;Text 90,250,0x00000000, SSE5, SSE5len-SSE5   ;DNP, DNPlen-DNP  ;see here
-    
-    ;added
     Text 15,70,,name, namelen-name
 
     Text 15,290,,MMXs, MMXslen-MMXs
@@ -2664,31 +2554,15 @@ PutImage 15,345,93,24,img_area2+8 ;PutImage 15,330,93,24,img_area2+8   ; image "
     Number 270,350,0,4,dword [ram_size_t]
     Text 300,350,0x00000000,mb, mblen-mb
     
-    ;Text 115,335,0x00000000,newLabel2, newLabel2len-newLabel2 
-       
     Text 15, 190,0x00000000,cache, cachelen-cache 
     Text 15,170,0x00000000,cache2, cache2len-cache2
     Text 15,210,,cache3, cache3len-cache3
     Text 15,230,,cache4, cache4len-cache4
-        
-        
-   
-   ;mov dword[cname], null
-  ; cmp dword[cname], 'Arrandale'
-  ; je P25
-   
-  ; P25:
-   Text 110,70,0x00000000,dword[cname], 40
-   
-  ;  mcall   4, <110,70>, 0x00000000, [cname]   
-     ;   mov     ebx, 110 * 65536 + 70    ; draw info text with function 4
-     ;   mov     ecx,0x00000000      ;0x224466
-     ;   mov     edx, [cname]
-     ;   mov     esi, 40
-     ;   mov     eax, 4
-     ;   mcall
-        call	load_gif
-        
+	
+    Text 110,70,0x00000000,dword[cname], 40
+  
+	call	load_gif
+	
     cmp [nomultiplier], $1
   je nomultip
 Text   15,30,0x00000000,multil2, multil2len-multil2
@@ -2697,7 +2571,7 @@ Number 85,30,0,2,dword [multb],0x000000;
 Number 105,30,0,1,dword [multa]
 Number 259,30,0,4,dword [freqbb]
 Number 289,30,0,2,dword [freqll]
-         
+	 
      JumpForCodename: 
     cmp [codeN], $1
     je codeNIntel
@@ -2712,15 +2586,12 @@ Number 289,30,0,2,dword [freqll]
     cmp [codeN], $6
     je codeNVortex
     
-    ;Text   15,30,0x00000000,multil, multillen-multil
-    ;Text   175,30,,freql, freqllen-freql
-
 
 codeNIntel:
 Text 75,70,0x00000000,Inteln, Intelnlen-Inteln
 mov	esi, intel
 call	load_gif
-PutImage 135,107,201,49,img_area+8  ;this one
+PutImage 135,107,201,49,img_area+8 
 jmp nnn
 
 codeNAMD:
@@ -2760,9 +2631,7 @@ jmp nnn
  
 nomultip:
 Text   15,30,0x00000000,multi3, multi3len-multi3
-;Text 85,30,0x00000000, multi3, multi3len-multi3
 Text   175,30,0x00000000,freql3, freql3len-freql3 
-;Text 85,30,0x00000000, multi0, multi0len-multi0
 Text 259,30,0x00000000, clock0, clock0len-clock0
 
 jmp JumpForCodename
@@ -2840,14 +2709,13 @@ prepare_text_area:
 	mov esi, stm
 	call addstring
 
-	;internal name
 	mov esi, myname
 	call addstring
 
    cmp [nomultiplier], $1
 	je noMult
 	jne detMulti 
-	 ;jne detFreq
+	
 	 
 	detMulti:
 	mov esi,multil 
@@ -2859,26 +2727,20 @@ prepare_text_area:
 	call addstring	
 	
 	noMult:
-	mov esi,multi3 ;multil
+	mov esi,multi3 
 	call addstring 
 	
-	mov esi,freql3 ;multil
-	call addstring 	 
+	mov esi,freql3 
+	call addstring	 
 
 	mov esi, tech
 	call addstring
 	
-  ;mov esi, name
-	;call addstring
-
 	mov esi, saveproc
 	call addstring
 
 	mov esi, cpuname   
 	call addstring
-
-  ;mov esi, vendorname   ;uncomment this
-  ;call addstring
 
 	mov esi, fam
 	call addstring
@@ -3024,7 +2886,6 @@ prepare_text_area:
 	mov esi, SSE
 	call addstring
 
-
 	mov esi, SSn
 	call addstring
 
@@ -3118,14 +2979,8 @@ prepare_text_area:
 	mov esi, MCR8
 	call addstring
 	
-	;;;;
-
-	
 	mov esi, SMX
 	call addstring
-	
-	;mov esi, newLabel2
-	;call addstring
 	
 	mov esi, x2APIC
 	call addstring
@@ -3154,8 +3009,6 @@ prepare_text_area:
   mov esi, WDT
   call addstring
   
-  ;mov esi, DNP
-  ;call addstring
   
 	ret
 
@@ -3253,7 +3106,7 @@ include 'gif_lite.inc'	      ; parse GIF files
 
 ; DATA AREA
 
-title	 db   'CPUID 2.29 by S.Kuzmin & the KolibriOS team',0
+title	 db   'CPUID 2.43 by S.Kuzmin & the KolibriOS team',0
 
 stm:
    db 'Internal name:', 0 
@@ -3267,14 +3120,6 @@ SS42len:
 SMX:
     db 'SMX:       ',0
 SMXlen:
-
-;PDCMNEW:
-;    db 'PDCM:       ',0
-;PDCMNEWlen:
-
-;newLabel2:
-;    db 'PDCM:       ',0
-;newLabel2len:
 
 x2APIC:
     db 'x2APIC:       '
@@ -3309,9 +3154,7 @@ MIS:
     db 'MIS:      ',0
 MISlen:
 
-DNP:
- ;   db 'HELLOOOOOOO      ',0
-    
+DNP:    
     db '3DNP:       '
 DNPlen:
 
@@ -3332,7 +3175,6 @@ saveproc:
    db '                                                   ',0
 
 multil:
-  ;;;db 'Multiplier:   '
   db 'Multiplier:   .          ', 0
 
 multillen:
@@ -3352,7 +3194,6 @@ multi3len:
 freql:
 
   db 'System clock:     .   MHz', 0
-  ;;;;db 'System clock:    '
 freqllen:
 
 freql2:
@@ -3429,11 +3270,11 @@ fam:
 
 if lang eq it
 
-     db 'Famiglia:   std   ext', 0
+     db 'Famiglia:    std   ext', 0
 
 else
 
-     db 'FAMILY:   std   ext', 0
+     db 'FAMILY:    std   ext', 0
 
 end if
 
@@ -3601,16 +3442,6 @@ instructlen:
 
 standard    db 'Standard and Extended features plus Performance test',0
 
-
-
-;FR:
-
-;    db 'Choose FSB:'
-
-;FRlen:
-
-
-
 STDCA:
 
     db 'Highest STD call is         ',0
@@ -3660,8 +3491,6 @@ cacheP4:
     db 'L1(inst):     Kuops    -way set     -byte line size'
 
 cacheP4len:
-
-
 
 
 typen:
@@ -4034,14 +3863,8 @@ P2Alen:
 
 P2D:
 db 'Sandy bridge-E',0 ; stepping M1, micron 0.032 
-; sandy bridge-EN -> stepping M1, micron 0.032
-;sandy bridge-EP C1 (QBLW) M1 (QBWA, SR0L9), micron 0.032
-;
-P2Dlen:
 
-null:
-  db ' hiiiiiiiiiii',0
-nullLen:
+P2Dlen:
 
 P25:
 db 'Arrandale',0
@@ -4111,6 +3934,8 @@ P1C:
 db 'Pineview',0
 P1Clen:
 
+no_known:
+db 'SORRY, CODENAME IS NOT SUPPORTED YET '
 
 ;---------AMD
 
@@ -4242,7 +4067,7 @@ AF4len:
 
 AF5:
 
-db 'Opteron/Athlon 64 FX (SledgeHammer)',0
+db 'Caspian',0
 
 AF5len:
 
@@ -4454,12 +4279,12 @@ align 4
 ProcLib_import:
 OpenDialog_Init 	dd aOpenDialog_Init
 OpenDialog_Start	dd aOpenDialog_Start
-;OpenDialog__Version    dd aOpenDialog_Version
+;OpenDialog__Version	dd aOpenDialog_Version
 	dd	0
 	dd	0
 aOpenDialog_Init	db 'OpenDialog_init',0
 aOpenDialog_Start	db 'OpenDialog_start',0
-;aOpenDialog_Version    db 'Version_OpenDialog',0
+;aOpenDialog_Version	db 'Version_OpenDialog',0
 ;---------------------------------------------------------------------
 align 4
 OpenDialog_data:
@@ -4671,8 +4496,6 @@ mynamelen:
 
 
 align 4
-
-
 
   thread2_stack_area rb 64
 
