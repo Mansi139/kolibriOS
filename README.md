@@ -1,2 +1,0 @@
-# kolibri
-GSoC Project
